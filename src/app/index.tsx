@@ -1,17 +1,19 @@
-import { Text, View, StyleSheet } from "react-native";
-
-export default function Index() {
+import Splash from "@/Component/screens/Splash";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, View } from "react-native";
+const Index = () => {
   return (
     <View style={styles.container}>
-      <Text>Edit src/app/index.tsx to edit this screen.</Text>
+      <StatusBar style="dark" />
+      <Splash />
     </View>
   );
-}
+};
+
+export default Index;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
