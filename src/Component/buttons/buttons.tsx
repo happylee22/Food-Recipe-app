@@ -5,10 +5,11 @@ import { styles } from "./styles";
 
 type CustomButtonsProps = {
   children: ReactNode;
+  onPress: () => void;
 };
-const CustomButtons = ({ children }: CustomButtonsProps) => {
+const CustomButtons = ({ children, onPress }: CustomButtonsProps) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Text style={styles.text}>{children}</Text>
       <FontAwesome
         name="long-arrow-right"

@@ -3,16 +3,19 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   background: {
-    width: "100%",
-    height: "100%",
     flex: 1,
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
   },
+  back: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+  },
   container: {
     paddingHorizontal: 15,
-    paddingVertical: 40,
+    paddingVertical: 80,
   },
 
   logo: {
@@ -33,12 +36,19 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     paddingHorizontal: 30,
+    marginTop: 30,
+  },
+  biggTitle: {
+    color: colors.white,
+    fontSize: 50,
+    textAlign: "center",
+    fontWeight: "bold",
   },
   subTitle: {
     color: colors.white,
     fontSize: 16,
     textAlign: "center",
-    marginBottom: 64,
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 90,
   },
 });

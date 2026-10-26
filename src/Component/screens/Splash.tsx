@@ -1,13 +1,19 @@
-import { Image, ImageBackground, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Image, Text, View } from "react-native";
 import CustomButtons from "../buttons/buttons";
 import { styles } from "./styles";
 
 const Splash = () => {
+  const router = useRouter();
+  const onPress = () => {
+    router.push("/homeScreen");
+  };
   return (
-    <ImageBackground
-      source={require("@/assets/images/background.png")}
-      style={styles.background}
-    >
+    <View style={styles.background}>
+      <Image
+        source={require("@/assets/images/background.png")}
+        style={styles.back}
+      />
       {/* first Child View */}
       <View style={styles.container}>
         <Image
@@ -19,13 +25,13 @@ const Splash = () => {
       {/* second View */}
       <View style={styles.container}>
         <Text style={styles.bigTitle}>Get</Text>
-        <Text style={styles.bigTitle}> Cooking</Text>
+        <Text style={styles.biggTitle}> Cooking</Text>
 
         <Text style={styles.subTitle}>Simple way to find tasty Recipe</Text>
 
-        <CustomButtons>Start Cooking</CustomButtons>
+        <CustomButtons onPress={onPress}>Start Cooking</CustomButtons>
       </View>
-    </ImageBackground>
+    </View>
   );
 };
 
