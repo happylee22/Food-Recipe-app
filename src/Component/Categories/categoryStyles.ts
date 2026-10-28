@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.green,
     fontWeight: "bold",
-    padding: 10,
+    padding: 8,
     paddingHorizontal: 12,
   },
   selectedItem: {

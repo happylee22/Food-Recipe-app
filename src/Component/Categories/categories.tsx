@@ -10,23 +10,26 @@ const Categories = ({ categories, selectCategory, onCategoryPress }: Props) => {
     <FlatList
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{ paddingHorizontal: 24 }}
-      style={{ marginHorizontal: -24, flexGrow: 0 }}
+      style={{
+        marginTop: 24,
+        flexGrow: 0,
+        marginHorizontal: -24,
+      }}
       data={categories}
-      renderItem={({ item }) => {
-        const selected = selectCategory === item;
+      renderItem={({ item, index }) => {
         return (
           <TouchableOpacity
             onPress={() => onCategoryPress(item)}
             style={[
               styles.itemContainer,
               selectCategory === item ? styles.selectedItemContainer : null,
+              index === 0 ? { marginLeft: 24 } : {},
             ]}
           >
             <Text
               style={[
                 styles.item,
-                selectCategory === item ? styles.selectedItem : null,
+                selectCategory === item ? styles.selectedItem : {},
               ]}
             >
               {item}
@@ -34,7 +37,7 @@ const Categories = ({ categories, selectCategory, onCategoryPress }: Props) => {
           </TouchableOpacity>
         );
       }}
-      keyExtractor={(item, index) => index.toString()}
+      keyExtractor={(item) => String(item)}
     />
   );
 };
