@@ -1,17 +1,27 @@
-import { useRouter } from "expo-router";
+import Input from "@/Component/Input/inputScreen";
+import { colors } from "@/constants/colors";
+import { router } from "expo-router";
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import Categories from "../Categories/categories";
+import Title from "../title/CustomTitle";
 import { styles } from "./homeStyle";
 
 const HomeScreen = () => {
-  const router = useRouter();
-  const Onpress = () => {
-    router.push("/search");
-  };
   return (
     <View style={styles.container}>
-      <Text>Welcome</Text>
-      <Text onPress={Onpress}>Go To Search</Text>
+      <Input
+        placeholder="Search Here"
+        placeholderTextColor={colors.lightGray}
+        editable={false}
+        onPress={() => router.push("/search")}
+      />
+      <Title text="Featured Recipies" />
+      <Categories
+        categories={["All", "Trending", "Porpular"]}
+        selectCategory="All"
+        onCategoryPress={() => {}}
+      />
     </View>
   );
 };
