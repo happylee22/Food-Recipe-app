@@ -1,9 +1,23 @@
+import { getRecipiesList } from "@/Hooks/useFetch";
 import { useRouter } from "expo-router";
+import { useEffect } from "react";
 import { Image, Text, View } from "react-native";
 import CustomButtons from "../buttons/buttons";
 import { styles } from "./styles";
 
 const Splash = () => {
+  useEffect(() => {
+    handleRecipiesFetch();
+  }, []);
+  const handleRecipiesFetch = async () => {
+    try {
+      const recipies = await getRecipiesList();
+      console.log("data =>", recipies);
+    } catch (e) {
+      console.log("error fetching recipies +>", e);
+    }
+  };
+
   const router = useRouter();
   const onPress = () => {
     router.push("/homeScreen");

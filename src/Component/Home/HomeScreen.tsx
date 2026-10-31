@@ -2,6 +2,7 @@ import Input from "@/Component/Input/inputScreen";
 import { colors } from "@/constants/colors";
 import { router } from "expo-router";
 import { FlatList, View } from "react-native";
+import Cards from "../cards/cardsComponent";
 import Categories from "../Categories/categories";
 import RecipeCard from "../RecipeCard/recipeCard";
 import Title from "../title/CustomTitle";
@@ -17,12 +18,14 @@ const HomeScreen = () => {
         onPress={() => router.push("/search")}
       />
       <Title text="Featured Recipies" />
+      {/* first FlatList */}
       <FlatList
         style={{
           flexGrow: 0,
           marginHorizontal: -24,
         }}
         horizontal
+        showsHorizontalScrollIndicator={false}
         data={[1, 2, 3]}
         keyExtractor={(item) => String(item)}
         renderItem={({ index }) => (
@@ -43,6 +46,24 @@ const HomeScreen = () => {
         categories={["All", "Trending", "Porpular"]}
         selectCategory="All"
         onCategoryPress={() => {}}
+      />
+      {/* Second FlatList */}
+      <FlatList
+        style={{
+          flexGrow: 0,
+          marginHorizontal: -24,
+        }}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        data={[1, 2, 3]}
+        keyExtractor={(item) => String(item)}
+        renderItem={({ index }) => (
+          <Cards
+            style={index === 0 ? { marginLeft: 24 } : {}}
+            title="Classic Greek Salad"
+            timer="20 mins"
+          />
+        )}
       />
     </View>
   );

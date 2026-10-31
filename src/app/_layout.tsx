@@ -1,5 +1,7 @@
+import { RecipeProvider } from "@/Hooks/recipeContext";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DefaultTheme, router, Stack, ThemeProvider } from "expo-router";
+
 import { TouchableOpacity } from "react-native";
 
 const BackButton = (props: any) => {
@@ -18,29 +20,31 @@ const theme = {
 };
 export default function RootLayout() {
   return (
-    <ThemeProvider value={theme}>
-      <Stack screenOptions={{ headerShadowVisible: false }}>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="homeScreen"
-          options={{
-            title: "Home",
-            headerTitleAlign: "center",
-            headerBackVisible: false,
-          }}
-        />
-        <Stack.Screen
-          name="search"
-          options={{
-            title: "Search",
-            headerTitleAlign: "center",
-            headerBackVisible: false,
-            headerLeft: (props) => <BackButton {...props} />,
-            animation: "none",
-            headerBackButtonDisplayMode: "minimal",
-          }}
-        />
-      </Stack>
-    </ThemeProvider>
+    <RecipeProvider>
+      <ThemeProvider value={theme}>
+        <Stack screenOptions={{ headerShadowVisible: false }}>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="homeScreen"
+            options={{
+              title: "Home",
+              headerTitleAlign: "center",
+              headerBackVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="search"
+            options={{
+              title: "Search",
+              headerTitleAlign: "center",
+              headerBackVisible: false,
+              headerLeft: (props) => <BackButton {...props} />,
+              animation: "none",
+              headerBackButtonDisplayMode: "minimal",
+            }}
+          />
+        </Stack>
+      </ThemeProvider>
+    </RecipeProvider>
   );
 }
