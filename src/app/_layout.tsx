@@ -1,16 +1,20 @@
-import { RecipeProvider } from "@/Hooks/recipeContext";
+import {
+  HealthyRecipeProvider,
+  useHealthyRecipes,
+} from "@/Hooks/healthyRecipiesContext";
+import { RecipeProvider, useRecipes } from "@/Hooks/recipeContext";
+import { getRecipiesList } from "@/Hooks/useFetch";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DefaultTheme, router, Stack, ThemeProvider } from "expo-router";
-
+import { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 
-const BackButton = (props: any) => {
-  return (
-    <TouchableOpacity onPress={() => router.back()}>
-      <FontAwesome name="long-arrow-left" size={24} />
-    </TouchableOpacity>
-  );
-};
+const BackButton = () => (
+  <TouchableOpacity onPress={() => router.back()}>
+    <FontAwesome name="long-arrow-left" size={24} />
+  </TouchableOpacity>
+);
+
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -18,33 +22,78 @@ const theme = {
     background: "#ffffff",
   },
 };
+
+function RootNavigator() {
+  const { setRecipes } = useRecipes();
+  const { setHealthyRecipes } = useHealthyRecipes();
+
+  // useEffect(() => {
+  //   async () => {
+  //     const rec = await handleRecipiesfetch();
+  //     setRecipes(rec);
+  //     const healthyRec = await handleRecipiesfetch("healthy", "5");
+  //     setHealthyRecipes(healthyRec);
+  //   };
+  // }, []);
+  useEffect(() => {
+    const loadRecipes = async () => {
+      const [all, healthy] = await Promise.all([
+        handleRecipesFetch(null, 20, 11),
+        handleRecipesFetch("healthy", 10, 0),
+      ]);
+      setRecipes(all);
+      setHealthyRecipes(healthy);
+    };
+    loadRecipes();
+  }, []);
+  const handleRecipesFetch = async (
+    tags: string | null = null,
+    size: number | string = 20,
+    from: number = 0,
+  ) => {
+    try {
+      const recipes = await getRecipiesList(tags, size, from);
+      return recipes?.data.results ?? [];
+    } catch (e) {
+      console.log("error fetching recipies =>", e);
+      return [];
+    }
+  };
+
+  return (
+    <ThemeProvider value={theme}>
+      <Stack screenOptions={{ headerShadowVisible: false }}>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="homeScreen"
+          options={{
+            title: "Home",
+            headerTitleAlign: "center",
+            headerBackVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="search"
+          options={{
+            title: "Search",
+            headerTitleAlign: "center",
+            headerBackVisible: false,
+            headerLeft: () => <BackButton />,
+            animation: "none",
+            headerBackButtonDisplayMode: "minimal",
+          }}
+        />
+      </Stack>
+    </ThemeProvider>
+  );
+}
+
 export default function RootLayout() {
   return (
-    <RecipeProvider>
-      <ThemeProvider value={theme}>
-        <Stack screenOptions={{ headerShadowVisible: false }}>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="homeScreen"
-            options={{
-              title: "Home",
-              headerTitleAlign: "center",
-              headerBackVisible: false,
-            }}
-          />
-          <Stack.Screen
-            name="search"
-            options={{
-              title: "Search",
-              headerTitleAlign: "center",
-              headerBackVisible: false,
-              headerLeft: (props) => <BackButton {...props} />,
-              animation: "none",
-              headerBackButtonDisplayMode: "minimal",
-            }}
-          />
-        </Stack>
-      </ThemeProvider>
-    </RecipeProvider>
+    <HealthyRecipeProvider>
+      <RecipeProvider>
+        <RootNavigator />
+      </RecipeProvider>
+    </HealthyRecipeProvider>
   );
 }

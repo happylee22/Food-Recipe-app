@@ -3,10 +3,10 @@ import { Image, StyleProp, Text, View, ViewStyle } from "react-native";
 import { styles } from "./recipecardStyle";
 type RecipeCardProps = {
   title: string;
-  image?: string;
-  author: { name: string; image: string };
-  rating?: number;
-  timer: string;
+  image: string;
+  author: { name: string; image?: string | null };
+  rating: number;
+  timer: number;
   style: StyleProp<ViewStyle>;
 };
 
@@ -25,20 +25,19 @@ const RecipeCard = ({
           <Text numberOfLines={1} style={styles.title}>
             {title}
           </Text>
-          <Ratings rating={3} />
+          <Ratings rating={rating} />
         </View>
 
-        <Image
-          style={styles.image}
-          source={require("@/assets/images/food.png")}
-        />
+        <Image style={styles.image} source={{ uri: image }} />
       </View>
 
       {/* sub parent */}
       <View style={styles.footer}>
         {/* first */}
         <View style={styles.row}>
-          <Image style={styles.authorImage} source={{ uri: author.image }} />
+          {author.image ? (
+            <Image style={styles.authorImage} source={{ uri: author.image }} />
+          ) : null}
           <Text style={styles.footerText}>{`By ${author.name}`}</Text>
         </View>
         {/* second */}

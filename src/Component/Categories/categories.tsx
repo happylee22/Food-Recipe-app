@@ -17,6 +17,7 @@ const Categories = ({ categories, selectCategory, onCategoryPress }: Props) => {
       }}
       data={categories}
       renderItem={({ item, index }) => {
+        const displayName = item?.replace("_", " ");
         return (
           <TouchableOpacity
             onPress={() => onCategoryPress(item)}
@@ -32,7 +33,7 @@ const Categories = ({ categories, selectCategory, onCategoryPress }: Props) => {
                 selectCategory === item ? styles.selectedItem : {},
               ]}
             >
-              {item}
+              {displayName}
             </Text>
           </TouchableOpacity>
         );

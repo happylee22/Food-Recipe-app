@@ -3,7 +3,7 @@ import { styles } from "./cardStyle";
 type RecipeCardProps = {
   title: string;
   image?: string;
-  timer: string;
+  timer: number;
   style: StyleProp<ViewStyle>;
 };
 
@@ -16,12 +16,9 @@ const Cards = ({
 }: RecipeCardProps) => {
   return (
     <View style={[styles.container, style]}>
-      <Image
-        style={styles.image}
-        source={require("@/assets/images/food.png")}
-      />
+      <Image style={styles.image} source={{ uri: image }} />
 
-      <Text numberOfLines={3} style={styles.title}>
+      <Text numberOfLines={2} style={styles.title}>
         {title}
       </Text>
       <Text style={styles.label}>Time</Text>

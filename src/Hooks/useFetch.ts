@@ -1,11 +1,15 @@
 import axios from "axios";
-export const getRecipiesList = async (tags = null) => {
+export const getRecipiesList = async (
+  tags: string | null = null,
+  size: number | string = 20,
+  from: number = 0,
+) => {
   const options = {
     method: "GET",
     url: "https://tasty.p.rapidapi.com/recipes/list",
     params: {
-      from: "0",
-      size: "20",
+      from: String(from),
+      size: size || "20",
       tags,
     },
     headers: {
