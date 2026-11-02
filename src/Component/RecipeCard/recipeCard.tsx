@@ -1,5 +1,12 @@
 import Ratings from "@/Component/Ratings/ratingsStar";
-import { Image, StyleProp, Text, View, ViewStyle } from "react-native";
+import {
+  Image,
+  StyleProp,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native";
 import { styles } from "./recipecardStyle";
 type RecipeCardProps = {
   title: string;
@@ -8,6 +15,7 @@ type RecipeCardProps = {
   rating: number;
   timer: number;
   style: StyleProp<ViewStyle>;
+  onPress: () => void;
 };
 
 const RecipeCard = ({
@@ -17,9 +25,10 @@ const RecipeCard = ({
   rating,
   timer,
   style,
+  onPress,
 }: RecipeCardProps) => {
   return (
-    <View style={[styles.container, style]}>
+    <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
       <View style={styles.row}>
         <View style={{ flex: 1 }}>
           <Text numberOfLines={1} style={styles.title}>
@@ -50,7 +59,7 @@ const RecipeCard = ({
           <Text style={styles.footerText}>{timer}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

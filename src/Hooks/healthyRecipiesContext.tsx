@@ -1,10 +1,21 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-
+//ratings
 type Ratings = {
   count_negative: number;
   count_positive: number;
   score: number;
 };
+//nutrition
+type Nutrition = {
+  calories?: number;
+  protein?: number;
+  fat?: number;
+  carbohydrates?: number;
+  sugar?: number;
+  fiber?: number;
+  updated_at?: string;
+};
+//credit
 type Credit = { name: string; picture_url: string };
 
 export interface Recipe {
@@ -16,6 +27,7 @@ export interface Recipe {
   image: string;
   user_ratings: Ratings;
   credits: Credit[] | null;
+  nutrition?: Nutrition | null;
 }
 
 interface RecipeContextType {

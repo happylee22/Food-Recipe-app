@@ -1,14 +1,15 @@
 import { colors } from "@/constants/colors";
 import { useRecipes } from "@/Hooks/recipeContext";
+import { router } from "expo-router";
 import { useMemo, useState } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import Cards from "../cards/cardsComponent";
 import Input from "../Input/inputScreen";
 import { styles } from "./searchStyle";
 
 const SearchScreen = () => {
   const { recipes } = useRecipes();
-  // const [filteredrecipies, setFilteredRecipies] = useState(recipes);
+  // const [filteredrecipies, setFilteredRecipies] = useState([]);
   const [keyWord, setkeyWord] = useState("");
   // useEffect(() => {
   //   if (keyWord?.length > 2) {
@@ -44,6 +45,12 @@ const SearchScreen = () => {
         renderItem={({ item }) => {
           return (
             <Cards
+              onPress={() =>
+                router.push({
+                  pathname: "/detailsScreen",
+                  params: { id: String(item.id) },
+                })
+              }
               author={{
                 name: item.credits?.[0]?.name ?? "Unknown",
                 image: item.credits?.[0]?.picture_url || item.thumbnail_url,
@@ -54,6 +61,13 @@ const SearchScreen = () => {
             />
           );
         }}
+        ListEmptyComponent={
+          <Text style={{ textAlign: "center", marginTop: 40 }}>
+            {keyWord.trim().length < 3
+              ? "Type at least 3 letters to search"
+              : "No recipes found"}
+          </Text>
+        }
       />
     </View>
   );

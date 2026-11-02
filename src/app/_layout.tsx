@@ -70,12 +70,25 @@ function RootNavigator() {
             title: "Home",
             headerTitleAlign: "center",
             headerBackVisible: false,
+            headerTitleStyle: { fontWeight: "bold" },
           }}
         />
         <Stack.Screen
           name="search"
           options={{
-            title: "Search",
+            title: "Search recipies",
+            headerTitleAlign: "center",
+            headerTitleStyle: { fontWeight: "bold" },
+            headerBackVisible: false,
+            headerLeft: () => <BackButton />,
+            animation: "none",
+            headerBackButtonDisplayMode: "minimal",
+          }}
+        />
+        <Stack.Screen
+          name="detailsScreen"
+          options={{
+            title: "",
             headerTitleAlign: "center",
             headerBackVisible: false,
             headerLeft: () => <BackButton />,

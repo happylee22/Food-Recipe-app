@@ -52,6 +52,12 @@ const HomeScreen = () => {
         keyExtractor={(item) => String(item?.id)}
         renderItem={({ item, index }) => (
           <RecipeCard
+            onPress={() =>
+              router.push({
+                pathname: "/detailsScreen",
+                params: { id: String(item.id) },
+              })
+            }
             style={index === 0 ? { marginLeft: 24 } : {}}
             image={item?.thumbnail_url}
             rating={(item.user_ratings?.score ?? 0) * 5}
@@ -83,6 +89,12 @@ const HomeScreen = () => {
         renderItem={({ item, index }) => (
           <Cards
             style={index === 0 ? { marginLeft: 24 } : {}}
+            onPress={() =>
+              router.push({
+                pathname: "/detailsScreen",
+                params: { id: String(item.id) },
+              })
+            }
             author={{
               name: item.credits?.[0]?.name ?? "Unknown",
               image: item.credits?.[0]?.picture_url || item.thumbnail_url,
