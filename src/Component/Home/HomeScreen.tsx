@@ -83,6 +83,10 @@ const HomeScreen = () => {
         renderItem={({ item, index }) => (
           <Cards
             style={index === 0 ? { marginLeft: 24 } : {}}
+            author={{
+              name: item.credits?.[0]?.name ?? "Unknown",
+              image: item.credits?.[0]?.picture_url || item.thumbnail_url,
+            }}
             image={item.thumbnail_url}
             title={item?.name}
             timer={item?.cook_time_minutes || 10}

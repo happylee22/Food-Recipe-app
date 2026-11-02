@@ -4,16 +4,11 @@ type RecipeCardProps = {
   title: string;
   image?: string;
   timer: number;
-  style: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
+  author: { name: string; image?: string | null };
 };
 
-const Cards = ({
-  title,
-  image,
-
-  timer,
-  style,
-}: RecipeCardProps) => {
+const Cards = ({ title, image, author, timer, style }: RecipeCardProps) => {
   return (
     <View style={[styles.container, style]}>
       <Image style={styles.image} source={{ uri: image }} />
