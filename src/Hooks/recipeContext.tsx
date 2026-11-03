@@ -21,6 +21,17 @@ type Tags = {
   display_name: string;
   name: string;
 };
+// instructions
+type Instruction = {
+  id: number;
+  position: number;
+  display_text: string;
+  start_time?: number;
+  end_time?: number;
+  temperature?: number | null;
+  appliance?: string | null;
+};
+
 export interface Recipe {
   id: number;
   name: string;
@@ -32,6 +43,7 @@ export interface Recipe {
   credits: Credit[] | null;
   tags: Tags[] | null;
   nutrition?: Nutrition | null;
+  instructions?: Instruction[] | null;
 }
 
 interface RecipeContextType {

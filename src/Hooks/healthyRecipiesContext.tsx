@@ -17,7 +17,16 @@ type Nutrition = {
 };
 //credit
 type Credit = { name: string; picture_url: string };
-
+// instructions
+type Instruction = {
+  id: number;
+  position: number;
+  display_text: string;
+  start_time?: number;
+  end_time?: number;
+  temperature?: number | null;
+  appliance?: string | null;
+};
 export interface Recipe {
   id: number;
   name: string;
@@ -28,6 +37,7 @@ export interface Recipe {
   user_ratings: Ratings;
   credits: Credit[] | null;
   nutrition?: Nutrition | null;
+  instructions?: Instruction[] | null;
 }
 
 interface RecipeContextType {

@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 24,
+    marginHorizontal: 24,
     flex: 1,
   },
   image: {
@@ -29,6 +29,21 @@ export const styles = StyleSheet.create({
   value: {
     fontSize: 14,
     color: colors.lightGray2,
-    textTransform: "capitalize",
+  },
+  instructionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 12,
+  },
+  index: {
+    fontSize: 20,
+    color: "#797979",
+
+    marginRight: 16,
+  },
+  InstructionText: {
+    fontSize: 14,
+    color: colors.black,
+    flex: 1,
   },
 });
