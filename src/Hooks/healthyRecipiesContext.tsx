@@ -1,48 +1,11 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-//ratings
-type Ratings = {
-  count_negative: number;
-  count_positive: number;
-  score: number;
-};
-//nutrition
-type Nutrition = {
-  calories?: number;
-  protein?: number;
-  fat?: number;
-  carbohydrates?: number;
-  sugar?: number;
-  fiber?: number;
-  updated_at?: string;
-};
-//credit
-type Credit = { name: string; picture_url: string };
-// instructions
-type Instruction = {
-  id: number;
-  position: number;
-  display_text: string;
-  start_time?: number;
-  end_time?: number;
-  temperature?: number | null;
-  appliance?: string | null;
-};
-export interface Recipe {
-  id: number;
-  name: string;
-  thumbnail_url: string;
-  description?: string;
-  cook_time_minutes: number | null;
-  image: string;
-  user_ratings: Ratings;
-  credits: Credit[] | null;
-  nutrition?: Nutrition | null;
-  instructions?: Instruction[] | null;
-}
+import { Recipe } from "./types";
 
 interface RecipeContextType {
   healthyRecipes: Recipe[];
   setHealthyRecipes: (recipes: Recipe[]) => void;
+  setIsLoading: (isLoading: boolean) => void;
+  isLoading: boolean;
 }
 
 const HealthyRecipeContext = createContext<RecipeContextType | undefined>(
@@ -51,10 +14,11 @@ const HealthyRecipeContext = createContext<RecipeContextType | undefined>(
 
 export function HealthyRecipeProvider({ children }: { children: ReactNode }) {
   const [healthyRecipes, setHealthyRecipes] = useState<Recipe[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   return (
     <HealthyRecipeContext.Provider
-      value={{ healthyRecipes, setHealthyRecipes }}
+      value={{ healthyRecipes, setHealthyRecipes, setIsLoading, isLoading }}
     >
       {children}
     </HealthyRecipeContext.Provider>

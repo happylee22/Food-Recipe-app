@@ -11,14 +11,22 @@ import RecipeCard from "../RecipeCard/recipeCard";
 import Title from "../title/CustomTitle";
 import { styles } from "./homeStyle";
 
+import {
+  CardsSkeleton,
+  CategoriesSkeleton,
+  FadeIn,
+  HealthyRecipesSkeleton,
+} from "../moti/skeleton";
+
 const HomeScreen = () => {
-  const { recipes } = useRecipes();
-  const { healthyRecipes } = useHealthyRecipes();
+  const { recipes, isLoading } = useRecipes();
+  const { healthyRecipes, isLoading: healthyLoading } = useHealthyRecipes();
   console.log("healthyRecipes=>", healthyRecipes);
 
   console.log("Recipies=>", recipes);
   const [tags, setTags] = useState<string[]>([]);
   const [selectTags, setSelectedTag] = useState<string>("");
+  const [filteredRecipes, setFilteredRecipes] = useState(recipes);
   useEffect(() => {
     const tagsList: string[] = [];
     recipes?.forEach((recipe) => {
@@ -30,6 +38,20 @@ const HomeScreen = () => {
     });
     setTags(tagsList);
   }, [recipes]);
+  //selectedTag
+  useEffect(() => {
+    if (selectTags) {
+      console.log("selectedTag", selectTags);
+
+      const filteredItem = recipes?.filter((rec) => {
+        const tag = rec?.tags?.find((t) => t?.name === selectTags);
+        return !!tag;
+      });
+      setFilteredRecipes(filteredItem);
+    } else {
+      setFilteredRecipes(recipes);
+    }
+  }, [selectTags, recipes]);
 
   return (
     <View style={styles.container}>
@@ -39,72 +61,90 @@ const HomeScreen = () => {
         editable={false}
         onPress={() => router.push("/search")}
       />
+
       <Title text="Healthy Recipies" />
       {/* first FlatList */}
-      <FlatList
-        style={{
-          flexGrow: 0,
-          marginHorizontal: -24,
-        }}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={healthyRecipes}
-        keyExtractor={(item) => String(item?.id)}
-        renderItem={({ item, index }) => (
-          <RecipeCard
-            onPress={() =>
-              router.push({
-                pathname: "/detailsScreen",
-                params: { id: String(item.id) },
-              })
-            }
-            style={index === 0 ? { marginLeft: 24 } : {}}
-            image={item?.thumbnail_url}
-            rating={(item.user_ratings?.score ?? 0) * 5}
-            title={item?.name}
-            author={{
-              name: item.credits?.[0]?.name ?? "Unknown",
-              image: item.credits?.[0]?.picture_url || item.thumbnail_url,
+      {healthyLoading ? (
+        <HealthyRecipesSkeleton />
+      ) : (
+        <FadeIn>
+          <FlatList
+            style={{
+              flexGrow: 0,
+              marginHorizontal: -24,
             }}
-            timer={item?.cook_time_minutes || 10}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={healthyRecipes}
+            keyExtractor={(item) => String(item?.id)}
+            renderItem={({ item, index }) => (
+              <RecipeCard
+                onPress={() =>
+                  router.push({
+                    pathname: "/detailsScreen",
+                    params: { id: String(item.id) },
+                  })
+                }
+                style={index === 0 ? { marginLeft: 24 } : {}}
+                image={item?.thumbnail_url}
+                rating={(item.user_ratings?.score ?? 0) * 5}
+                title={item?.name}
+                author={{
+                  name: item.credits?.[0]?.name ?? "Unknown",
+                  image: item.credits?.[0]?.picture_url || item.thumbnail_url,
+                }}
+                timer={item?.cook_time_minutes || 10}
+              />
+            )}
           />
-        )}
-      />
+        </FadeIn>
+      )}
 
-      <Categories
-        categories={tags}
-        selectCategory={selectTags}
-        onCategoryPress={setSelectedTag}
-      />
+      {isLoading ? (
+        <CategoriesSkeleton />
+      ) : (
+        <Categories
+          categories={tags}
+          selectCategory={selectTags}
+          onCategoryPress={setSelectedTag}
+        />
+      )}
+
       {/* Second FlatList */}
-      <FlatList
-        style={{
-          flexGrow: 0,
-          marginHorizontal: -24,
-        }}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={recipes}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({ item, index }) => (
-          <Cards
-            style={index === 0 ? { marginLeft: 24 } : {}}
-            onPress={() =>
-              router.push({
-                pathname: "/detailsScreen",
-                params: { id: String(item.id) },
-              })
-            }
-            author={{
-              name: item.credits?.[0]?.name ?? "Unknown",
-              image: item.credits?.[0]?.picture_url || item.thumbnail_url,
+      {isLoading ? (
+        <CardsSkeleton />
+      ) : (
+        <FadeIn>
+          <FlatList
+            style={{
+              flexGrow: 0,
+              marginHorizontal: -24,
             }}
-            image={item.thumbnail_url}
-            title={item?.name}
-            timer={item?.cook_time_minutes || 10}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={filteredRecipes}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item, index }) => (
+              <Cards
+                style={index === 0 ? { marginLeft: 24 } : {}}
+                onPress={() =>
+                  router.push({
+                    pathname: "/detailsScreen",
+                    params: { id: String(item.id) },
+                  })
+                }
+                author={{
+                  name: item.credits?.[0]?.name ?? "Unknown",
+                  image: item.credits?.[0]?.picture_url || item.thumbnail_url,
+                }}
+                image={item.thumbnail_url}
+                title={item?.name}
+                timer={item?.cook_time_minutes || 10}
+              />
+            )}
           />
-        )}
-      />
+        </FadeIn>
+      )}
     </View>
   );
 };

@@ -24,8 +24,9 @@ const theme = {
 };
 
 function RootNavigator() {
-  const { setRecipes } = useRecipes();
-  const { setHealthyRecipes } = useHealthyRecipes();
+  const { setRecipes, setIsLoading } = useRecipes();
+  const { setHealthyRecipes, setIsLoading: setHealthyLoading } =
+    useHealthyRecipes();
 
   // useEffect(() => {
   //   async () => {
@@ -36,16 +37,26 @@ function RootNavigator() {
   //   };
   // }, []);
   useEffect(() => {
-    const loadRecipes = async () => {
-      const [all, healthy] = await Promise.all([
-        handleRecipesFetch(null, 20, 11),
-        handleRecipesFetch("healthy", 10, 0),
-      ]);
-      setRecipes(all);
-      setHealthyRecipes(healthy);
+    const loadAll = async () => {
+      try {
+        setRecipes(await handleRecipesFetch(null, 20, 11));
+      } finally {
+        setIsLoading(false);
+      }
     };
-    loadRecipes();
+
+    const loadHealthy = async () => {
+      try {
+        setHealthyRecipes(await handleRecipesFetch("healthy", 10, 0));
+      } finally {
+        setHealthyLoading(false);
+      }
+    };
+
+    loadAll(); // both start immediately, in parallel
+    loadHealthy();
   }, []);
+
   const handleRecipesFetch = async (
     tags: string | null = null,
     size: number | string = 20,
